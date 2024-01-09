@@ -7,3 +7,8 @@
   color: white;
   font-family: "Robot Slab", serif;
 }
+
+.logo {
+  filter: invert(100%);
+  background: transparent;
+}
