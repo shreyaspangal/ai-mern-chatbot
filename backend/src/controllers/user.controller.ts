@@ -43,7 +43,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
             signed: true
         });
 
-        return res.status(201).json({ message: "OK", user_id: newUser._id.toString() });
+        return res.status(201).json({ message: "OK", name: newUser.name, email: newUser.email });
     } catch (error) {
         console.log(error);
         return res.status(404).json({ message: "ERROR", cause: error.message });
@@ -86,11 +86,30 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
         });
 
         // Response
-        return res.status(200).json({ message: "OK", user_id: user._id.toString() });
+        return res.status(200).json({ message: "OK", name: user.name, email: user.email });
     } catch (error) {
         console.log(error);
         return res.status(404).json({ message: "ERROR", cause: error.message });
     }
 };
 
-export { getAllUsers, userSignup, userLogin };
+const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id: jwtUserId } = res.locals.jwtData;
+        const user = await User.findById(jwtUserId);
+
+        if (!user) {
+            return res.status(401).json({ message: "User not registered or Token malfunctioned" });
+        }
+        if (user._id.toString() !== jwtUserId) {
+            return res.status(401).json({ message: "Permissions dont match" });
+        }
+
+        // Response
+        return res.status(200).json({ message: "OK", name: user.name, email: user.email });
+    } catch (error) {
+
+    }
+}
+
+export { getAllUsers, userSignup, userLogin, verifyUser };
