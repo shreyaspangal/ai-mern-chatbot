@@ -28,7 +28,7 @@ export default function ChatItem({ content, role }: { content: string, role: "us
 
     return (
         role === "assistant" ? (
-            <div className='flex p-2 my-2 py-4 gap-5 bg-[#004d5612]'>
+            <div className='flex p-2 my-2 py-4 gap-5 bg-[#004d5612] rounded-md'>
                 <img
                     className="inline-block h-6 w-6 rounded-full invert"
                     src='openai.png'
@@ -52,7 +52,7 @@ export default function ChatItem({ content, role }: { content: string, role: "us
                 }
             </div>
         ) : (
-            <div className="flex p-2 gap-5 py-4 bg-[#004d56]">
+            <div className="flex p-2 gap-5 py-4 bg-[#004d56] rounded-md">
                 <div className="inline-flex shrink-0 h-6 w-6 items-center justify-center rounded-full bg-slate-900">
                     <div className="text-md font-medium leading-none text-white fw-700">
                         {auth?.user?.name[0]}

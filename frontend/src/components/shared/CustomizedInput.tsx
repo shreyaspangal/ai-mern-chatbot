@@ -21,7 +21,7 @@ function CustomizedInput(props: Props) {
         <div className="relative">
             <label
                 htmlFor="name"
-                className="absolute -top-2 left-2 inline-block bg-[#05101c] px-1 text-xs font-medium text-gray-100"
+                className="absolute -top-2 left-2 inline-block bg-[#05101c] px-1 text-xs font-medium text-gray-100 rounded-md"
             >
                 {props.label}
             </label>

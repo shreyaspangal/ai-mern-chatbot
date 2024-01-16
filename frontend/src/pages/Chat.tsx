@@ -69,7 +69,7 @@ const Chat = () => {
     }
 
     return (
-        <div className="flex w-full h-full mt-3 gap-3">
+        <div className="lg:flex w-full h-full mt-3 gap-3">
             <div className="hidden lg:flex flex-[0.2] flex-col">
                 <div className="flex p-5 gap-3 flex-col items-center w-full bg-slate-500 rounded-xl mx-3">
                     <div className="inline-flex shrink-0 h-12 w-12 items-center justify-center rounded-full bg-[rgb(17,29,39)]">
