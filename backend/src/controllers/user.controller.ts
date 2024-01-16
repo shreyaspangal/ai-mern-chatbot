@@ -112,4 +112,30 @@ const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export { getAllUsers, userSignup, userLogin, verifyUser };
+const userLogout = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id: jwtUserId } = res.locals.jwtData;
+        const user = await User.findById(jwtUserId);
+
+        if (!user) {
+            return res.status(401).json({ message: "User not registered or Token malfunctioned" });
+        }
+        if (user._id.toString() !== jwtUserId) {
+            return res.status(401).json({ message: "Permissions dont match" });
+        }
+
+        res.clearCookie(COOKIE_NAME, {
+            path: "/",
+            domain: "localhost",
+            httpOnly: true,
+            signed: true
+        });
+
+        // Response
+        return res.status(200).json({ message: "OK" });
+    } catch (error) {
+
+    }
+}
+
+export { getAllUsers, userSignup, userLogin, verifyUser, userLogout };
