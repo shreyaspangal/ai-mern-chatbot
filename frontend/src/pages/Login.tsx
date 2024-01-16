@@ -1,11 +1,18 @@
-import { Box, Button, Typography } from '@mui/material'
 import CustomizedInput from '../components/shared/CustomizedInput'
-import { LuLogIn as LoginIcon } from "react-icons/lu";
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const auth = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth?.user) {
+            return navigate("/chat");
+        }
+    }, [auth])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -13,63 +20,40 @@ const Login = () => {
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
+        if (!email || !password) {
+           return toast.error("All fields are required!");
+        }
+
         try {
-            toast.loading("Signing In", { id: "login" })
+            toast.loading("Logging In", { id: "login" })
             await auth?.login(email, password);
-            toast.success("Signed In Successfully", { id: "login" })
+            toast.success("Logged In Successfully", { id: "login" })
         } catch (error: any) {
-            toast.error("Signing In Failed", { id: "login" });
+            toast.error("Login Failed", { id: "login" });
             console.log(error);
         }
     }
 
     return (
-        <Box width={"100%"} height={"100%"} display={'flex'} flex={1}>
-            <Box padding={2} mt={8} display={{ md: "flex", sm: "none", xs: "none" }}>
-                <img src="airobot.png" alt="Robot" style={{ width: "400px" }} />
-            </Box>
-            <Box display={'flex'} flex={{ xs: 1, md: 0.5 }} justifyContent={'center'} alignItems={'center'} padding={2} ml={'auto'} mt={16}>
+        <div className="flex w-full h-full flex-1 items-center">
+            <div className="hidden lg:flex shrink-0 p-[16px] mt-[64px]">
+                <img src="airobot.png" alt="Robot" className='w-[400px]' />
+            </div>
+            <div className="flex flex-1 md:flex-[0.5] p-[16px] mx-auto lg:ml-auto mt-[128px] lg:mt-[50px]">
                 <form
                     onSubmit={handleSubmit}
-                    style={{
-                        margin: "auto",
-                        padding: "30px",
-                        boxShadow: "10px 10px 20px #000",
-                        borderRadius: "10px",
-                        border: "none"
-                    }}>
-                    <Box sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center"
-                    }}>
-                        <Typography variant="h4" textAlign={'center'} padding={2} fontWeight={600}>
-                            Login
-                        </Typography>
-                        <CustomizedInput name="email" type='email' label='Email' />
-                        <CustomizedInput name="password" type='password' label='Password' />
-                    </Box>
-                    <Button
-                        type='submit'
-                        sx={{
-                            px: 2,
-                            py: 1,
-                            mt: 2,
-                            width: "400px",
-                            borderRadius: 2,
-                            backgroundColor: "#00fffc",
-                            ":hover": {
-                                backgroundColor: "white",
-                                color: "black"
-                            }
-                        }}
-                        endIcon={<LoginIcon />}
-                    >
+                    className='m-auto p-[30px] shadow-2xl shadow-gray-700 rounded-[15px] border-none'>
+                    <div className="flex flex-col justify-center gap-7">
+                        <h4 className="text-center p-2 font-semibold text-3xl">Login</h4>
+                        <CustomizedInput name="email" type='email' label='Email' placeholder='Email' />
+                        <CustomizedInput name="password" type='password' label='Password' placeholder='Password' />
+                    </div>
+                    <button className="button mt-5 px-2 py-3 w-[400px] rounded-md bg-blue-600 hover:bg-white active:bg-white/50 hover:text-gray-900 font-semibold" type="submit">
                         Login
-                    </Button>
+                    </button>
                 </form>
-            </Box>
-        </Box>
+            </div>
+        </div>
     )
 }
 
