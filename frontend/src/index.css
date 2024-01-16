@@ -29,16 +29,3 @@ body {
   text-decoration: none;
   letter-spacing: 1px;
 }
-
-.MuiInputBase-input {
-  z-index: 1;
-}
-
-.MuiOutlinedInput-input-root.Mui-focused,
-.MuiOutlinedInput-notchedOutline {
- border-color: white !important;
-}
-
-.MuiTouchRipple-root{
-  display: none !important;
-}
